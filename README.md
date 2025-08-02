@@ -1,16 +1,17 @@
-# todo_app
+# PDF Image uploader
 
 A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is for upload image/pdf to store and view preview and download.
 
-A few resources to get you started if this is your first Flutter project:
+State management:
+    1. Bloc,
+    2. GetX
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Storage:
+    1. Hive
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Auth:
+    1. Firebase
