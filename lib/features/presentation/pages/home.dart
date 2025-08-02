@@ -21,13 +21,23 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     homectrller = Get.put(Homectrller());
+    context.read<FileblocBloc>().add(LoadSavedFilesEvent());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Dashboard"), centerTitle: true),
+      appBar: AppBar(
+        title: Text("Dashboard"),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16.0),
+            child: IconButton(onPressed: homectrller.logout, icon: Icon(Icons.logout)),
+          ),
+        ],
+      ),
       body: BlocBuilder<FileblocBloc, FileblocState>(
         builder: (context, state) {
           if (state is FileblocEvent) {

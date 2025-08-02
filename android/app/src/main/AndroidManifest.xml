@@ -1,7 +1,27 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+
+      <!-- Required for internet access -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- ✅ Android 10 and below -->
+     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+
+    <!-- ✅ Android 13+ (API 33+) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    
+    <!-- Optional for documents on Android 14+ -->
+    <uses-permission android:name="android.permission.READ_MEDIA_DOCUMENTS" tools:targetApi="34" />
+
+
+
     <application
         android:label="todo_app"
         android:name="${applicationName}"
+        android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

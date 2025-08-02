@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image/image.dart' as img;
 import 'package:bloc/bloc.dart';
 import 'package:file_picker/file_picker.dart';
@@ -8,7 +9,10 @@ part 'filebloc_event.dart';
 part 'filebloc_state.dart';
 
 class FileblocBloc extends Bloc<FileblocEvent, FileblocState> {
+  final Box<String> savedFilesBox = Hive.box<String>('savedFilesBox');
+
   FileblocBloc() : super(FileblocInitial()) {
+    on<LoadSavedFilesEvent>(_onLoadSavedFiles);
     on<PickFileEvent>(_onPickFile);
     on<ClearFileEvent>((event, emit) {
       _savedFiles.clear();
@@ -18,9 +22,28 @@ class FileblocBloc extends Bloc<FileblocEvent, FileblocState> {
 
   final List<File> _savedFiles = [];
 
-  Future<void> _onPickFile(PickFileEvent event, Emitter<FileblocState> emit) async {
-    emit(FileLoading());
+  Future<void> _onLoadSavedFiles(LoadSavedFilesEvent event, Emitter<FileblocState> emit) async {
+    _savedFiles.clear();
 
+    for (final path in savedFilesBox.values) {
+      final file = File(path);
+      if (await file.exists()) {
+        _savedFiles.add(file);
+      } else {
+        final keyToDelete = savedFilesBox.keys.firstWhere(
+          (key) => savedFilesBox.get(key) == path,
+          orElse: () => null,
+        );
+        if (keyToDelete != null) {
+          await savedFilesBox.delete(keyToDelete);
+        }
+      }
+    }
+
+    emit(FileLoaded(List.from(_savedFiles)));
+  }
+
+  Future<void> _onPickFile(PickFileEvent event, Emitter<FileblocState> emit) async {
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
@@ -41,7 +64,6 @@ class FileblocBloc extends Bloc<FileblocEvent, FileblocState> {
           final originalImage = img.decodeImage(bytes);
 
           if (originalImage == null) {
-            emit(FileError("Invalid image file"));
             return;
           }
 
@@ -52,9 +74,8 @@ class FileblocBloc extends Bloc<FileblocEvent, FileblocState> {
         }
 
         _savedFiles.add(savedFile);
+        await savedFilesBox.add(savedFile.path);
         emit(FileLoaded(List.from(_savedFiles))); // return a copy to avoid mutation
-      } else {
-        emit(FileError("No file selected"));
       }
     } catch (e) {
       emit(FileError("Error picking file: $e"));
