@@ -19,23 +19,23 @@ class FilePreviewScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         actions: [
           Obx(
-            () =>
-                controller.isReady.value
-                    ? Center(
-                      child: Text(
-                        "${controller.currentPage.value + 1}/${controller.totalPages.value}",
-                        style: const TextStyle(color: Colors.white),
-                      ),
-                    )
-                    : const SizedBox(),
+            () => controller.isReady.value
+                ? Center(
+                    child: Text(
+                      "${controller.currentPage.value + 1}/${controller.totalPages.value}",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                  )
+                : const SizedBox(),
           ),
-          IconButton(
-            icon: const Icon(Icons.download, color: Colors.white),
-            onPressed: controller.downloadFile,
-          ),
+          const SizedBox(width: 20),
         ],
       ),
       body: _buildBody(controller),
+      floatingActionButton: FloatingActionButton(
+        onPressed: controller.saveToDownloads,
+        child: const Icon(Icons.download),
+      ),
     );
   }
 

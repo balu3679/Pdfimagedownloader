@@ -8,10 +8,10 @@ import 'package:todo_app/utils/toast.dart';
 class RegisterController extends GetxController {
   final _authService = Get.find<Auth>();
   final formkey = GlobalKey<FormState>();
-  final namecontroller = TextEditingController(text: 'test');
-  final emailcontroller = TextEditingController(text: 'firstuser@gmail.com');
-  final passwordcontroller = TextEditingController(text: '123123123');
-  final confirmcontroller = TextEditingController(text: '123123123');
+  final namecontroller = TextEditingController();
+  final emailcontroller = TextEditingController();
+  final passwordcontroller = TextEditingController();
+  final confirmcontroller = TextEditingController();
 
   final ispassobsure = false.obs;
   final iscpassobsure = false.obs;
@@ -36,11 +36,12 @@ class RegisterController extends GetxController {
     Get.focusScope?.unfocus();
     try {
       final result = await _authService.signUpWithEmailPassword(
+        namecontroller.text.trim(),
         emailcontroller.text.trim(),
         passwordcontroller.text.trim(),
       );
       log('message : $result');
-      if (result != null) {
+      if (result.isSuccess) {
         Toast.showToast(message: 'Registered successfully');
       }
     } catch (e) {

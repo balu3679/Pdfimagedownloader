@@ -75,6 +75,9 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (value!.isEmpty) {
                         return 'Password is required';
                       }
+                      if (value.length < 6) {
+                        return 'Password atleast 6 digit';
+                      }
                       return null;
                     },
                   ),
@@ -96,6 +99,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Confrim Password is required';
+                      }
+                      if (value.length < 6) {
+                        return 'Password atleast 6 digit';
                       }
                       if (!registerctrller.isPassWordmatch()) {
                         return 'Password Mismatch';

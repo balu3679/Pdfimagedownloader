@@ -20,3 +20,10 @@ String getFirebaseAuthErrorMessage(String code, String? message) {
       return 'Authentication failed. ${message ?? ''}';
   }
 }
+
+class NetworkResponse {
+  final bool isSuccess;
+  final String? error;
+  final Map<String, dynamic>? data;
+  NetworkResponse({required this.isSuccess, this.error, this.data});
+}
