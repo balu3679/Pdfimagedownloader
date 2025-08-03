@@ -35,7 +35,7 @@ class PreviewController extends GetxController {
 
   Future<void> saveToDownloads() async {
     await MediaStore.ensureInitialized();
-    MediaStore.appFolder = "MyTodoApp";
+    MediaStore.appFolder = "MyPdfImageApp";
 
     final granted = await requestSmartPermission();
     if (!granted) {
@@ -53,7 +53,9 @@ class PreviewController extends GetxController {
 
     if (result != null && result.isSuccessful) {
       print("File saved: ${result.uri}");
-      Toast.showToast(message: 'Download successful');
+      Toast.showToast(
+        message: 'Download successful at Downloads/MyPdfImageApp',
+      );
     } else {
       print("Download failed: ${result?.name}");
       Toast.showToast(message: 'Download failed', iserror: true);
