@@ -15,3 +15,5 @@ Storage:
 
 Auth:
     1. Firebase
+
+NOTE: Your downloads can view in your Phone/Downloads/MyPdfImageApp/your_file
